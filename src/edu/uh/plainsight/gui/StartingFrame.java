@@ -1,6 +1,9 @@
 package edu.uh.plainsight.gui;
 
+import edu.uh.plainsight.PlainSight;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 
 public class StartingFrame extends JFrame {
@@ -24,8 +27,20 @@ public class StartingFrame extends JFrame {
         mainPanel.add(encryptButton, BorderLayout.WEST);
         mainPanel.add(decryptButton, BorderLayout.EAST);
         encryptButton.addActionListener(e->{
-            //TODO make a JFileChooser to choose starting image
-            //TODO make a JFileChooser to choose file to encrypt in image
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "PNG Images", "png");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(new JFrame("Choose an base image."));
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                PlainSight.inputFile = chooser.getSelectedFile();
+            }
+            //TODO calculate max file size
+            chooser = new JFileChooser();
+            returnVal = chooser.showOpenDialog(new JFrame("Choose a file to encrypt."));
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                PlainSight.dataFile = chooser.getSelectedFile();
+            }
             //TODO start new thread for encryption
             //TODO make progress bar frame
             //TODO make output frame on thread close
