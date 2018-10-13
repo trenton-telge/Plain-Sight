@@ -1,10 +1,12 @@
 package edu.uh.plainsight.gui;
 
 import edu.uh.plainsight.PlainSight;
+import edu.uh.plainsight.util.EncryptThread;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
 
 public class StartingFrame extends JFrame {
     public StartingFrame(){
@@ -41,7 +43,10 @@ public class StartingFrame extends JFrame {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 PlainSight.dataFile = chooser.getSelectedFile();
             }
-            //TODO start new thread for encryption
+
+            PlainSight.outputFile = new File(PlainSight.inputFile.toString().concat("encrypted.png"));
+
+            new EncryptThread(PlainSight.inputFile, PlainSight.dataFile, PlainSight.outputFile).start();
             //TODO make progress bar frame
             //TODO make output frame on thread close
         });
