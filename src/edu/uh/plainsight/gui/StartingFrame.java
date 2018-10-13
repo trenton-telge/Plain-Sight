@@ -2,6 +2,7 @@ package edu.uh.plainsight.gui;
 
 import edu.uh.plainsight.PlainSight;
 import edu.uh.plainsight.util.EncryptThread;
+import edu.uh.plainsight.util.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -37,9 +38,8 @@ public class StartingFrame extends JFrame {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 PlainSight.inputFile = chooser.getSelectedFile();
             }
-            //TODO calculate max file size
             chooser = new JFileChooser();
-            returnVal = chooser.showOpenDialog(new JFrame("Choose a file to encrypt."));
+            returnVal = chooser.showOpenDialog(new JFrame("Choose a file to encrypt. Max " + ImageUtil.calculateEncryptionCapacity(PlainSight.inputFile, 16) + " KB."));
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 PlainSight.dataFile = chooser.getSelectedFile();
             }
@@ -48,6 +48,15 @@ public class StartingFrame extends JFrame {
 
             new EncryptThread(PlainSight.inputFile, PlainSight.dataFile, PlainSight.outputFile).start();
             //TODO make progress bar frame
+            /*
+            *
+            *   SwingUtilities.invokeLater(new Runnable() {
+            *       public void run() {
+            *           pbar.setValue(i);
+            *       }
+            *   });
+            *
+            * */
             //TODO make output frame on thread close
         });
         decryptButton.addActionListener(e->{
