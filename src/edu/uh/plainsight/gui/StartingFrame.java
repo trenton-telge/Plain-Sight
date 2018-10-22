@@ -39,7 +39,9 @@ public class StartingFrame extends JFrame {
                 PlainSight.inputFile = chooser.getSelectedFile();
             }
             chooser = new JFileChooser();
-            returnVal = chooser.showOpenDialog(new JFrame("Choose a file to encrypt. Max " + ImageUtil.calculateEncryptionCapacity(PlainSight.inputFile, 16) + " KB."));
+            long capacity = ImageUtil.calculateEncryptionCapacity(PlainSight.inputFile, 16);
+            System.out.println("Maximum capacity: " + capacity + " KB.");
+            returnVal = chooser.showOpenDialog(new JFrame("Choose a file to encrypt. Max " + capacity + " KB."));
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 PlainSight.dataFile = chooser.getSelectedFile();
             }
