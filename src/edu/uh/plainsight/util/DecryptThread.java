@@ -54,6 +54,20 @@ public class DecryptThread extends Thread {
             }
             System.out.println("Desaturated.");
             System.out.println("Reading metadata...");
+            long fileSize = 0;
+            fileSize += (encryptedRGB[height-1][width-4].getRed() - baseRGB[height-1][width-5].getRed()) * Math.pow(10, 11);
+            fileSize += (encryptedRGB[height-1][width-4].getGreen() - baseRGB[height-1][width-5].getGreen()) * Math.pow(10, 10);
+            fileSize += (encryptedRGB[height-1][width-4].getBlue() - baseRGB[height-1][width-5].getBlue()) * Math.pow(10, 9);
+            fileSize += (encryptedRGB[height-1][width-3].getRed() - baseRGB[height-1][width-5].getRed()) * Math.pow(10, 8);
+            fileSize += (encryptedRGB[height-1][width-3].getGreen() - baseRGB[height-1][width-5].getGreen()) * Math.pow(10, 7);
+            fileSize += (encryptedRGB[height-1][width-3].getBlue() - baseRGB[height-1][width-5].getBlue()) * Math.pow(10, 6);
+            fileSize += (encryptedRGB[height-1][width-2].getRed() - baseRGB[height-1][width-5].getRed()) * Math.pow(10, 5);
+            fileSize += (encryptedRGB[height-1][width-2].getGreen() - baseRGB[height-1][width-5].getGreen()) * Math.pow(10, 4);
+            fileSize += (encryptedRGB[height-1][width-2].getBlue() - baseRGB[height-1][width-5].getBlue()) * Math.pow(10, 3);
+            fileSize += (encryptedRGB[height-1][width-1].getRed() - baseRGB[height-1][width-5].getRed()) * Math.pow(10, 2);
+            fileSize += (encryptedRGB[height-1][width-1].getGreen() - baseRGB[height-1][width-5].getGreen()) * Math.pow(10, 1);
+            fileSize += (encryptedRGB[height-1][width-1].getBlue() - baseRGB[height-1][width-5].getBlue()) * Math.pow(10, 0);
+            System.out.println(" Encrypted data size is " + fileSize + " bytes.");
         } catch (IOException e){
             e.printStackTrace();
         }
