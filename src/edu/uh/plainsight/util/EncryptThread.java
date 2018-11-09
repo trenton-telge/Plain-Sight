@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import static edu.uh.plainsight.util.ImageUtil.colorAdd;
+import static edu.uh.plainsight.util.ImageUtil.colorSub;
+
 public class EncryptThread extends Thread {
     private File inputFile, dataFile, outputFile;
 
@@ -116,15 +119,6 @@ public class EncryptThread extends Thread {
             e.printStackTrace();
         }
         super.run();
-    }
-
-    private int colorSub(int val, int offset){
-        if (val - offset >= 0){return val - offset;}
-        else {return 0;}
-    }
-    private int colorAdd(int val, int offset){
-        if (val + offset <= 255){return val + offset;}
-        else {return 255;}
     }
 }
 

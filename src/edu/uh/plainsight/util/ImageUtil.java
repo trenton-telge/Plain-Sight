@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageUtil {
+public final class ImageUtil {
     public static long calculateEncryptionCapacity(File image, int colorOffset){
         BufferedImage i = null;
         try {
@@ -24,5 +24,13 @@ public class ImageUtil {
             r++;
         }
         return r;
+    }
+    protected static int colorSub(int val, int offset){
+        if (val - offset >= 0){return val - offset;}
+        else {return 0;}
+    }
+    protected static int colorAdd(int val, int offset){
+        if (val + offset <= 255){return val + offset;}
+        else {return 255;}
     }
 }
