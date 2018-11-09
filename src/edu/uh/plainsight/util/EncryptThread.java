@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-import static edu.uh.plainsight.util.ImageUtil.colorAdd;
-import static edu.uh.plainsight.util.ImageUtil.colorSub;
+import static edu.uh.plainsight.util.ImageUtil.*;
 
 public class EncryptThread extends Thread {
     private File inputFile, dataFile, outputFile;
@@ -103,6 +102,53 @@ public class EncryptThread extends Thread {
             RGB[height-1][width-1] = new Color(colorAdd(RGB[h][w].getRed(), digits[9]),
                     colorAdd(RGB[h][w].getGreen(), digits[10]),
                     colorAdd(RGB[h][w].getBlue(), digits[11]));
+
+            String ext = getFileExtension(dataFile);
+            //only encodes in g and b for simplicity
+            switch (ext.length()){
+                case 4:{
+                    RGB[height-1][width-8] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(0))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(0))));
+                    RGB[height-1][width-7] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(1))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(1))));
+                    RGB[height-1][width-6] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(2))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(2))));
+                    RGB[height-1][width-5] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(3))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(3))));
+                    break;
+                }
+                case 3:{
+                    RGB[height-1][width-7] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(0))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(0))));
+                    RGB[height-1][width-6] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(1))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(1))));
+                    RGB[height-1][width-5] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(2))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(2))));
+                    break;
+                }
+                case 2:{
+                    RGB[height-1][width-6] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(0))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(0))));
+                    RGB[height-1][width-5] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(1))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(1))));
+                    break;
+                }
+                case 1:{
+                    RGB[height-1][width-5] = new Color(RGB[h][w].getRed(),
+                            colorAdd(RGB[h][w].getGreen(), firstFourBitASCIIMask(ext.charAt(0))),
+                            colorAdd(RGB[h][w].getBlue(), lastFourBitASCIIMask(ext.charAt(0))));
+                    break;
+                }
+            }
             System.out.println(" Metadata written.");
             System.out.println("Encoded.");
             System.out.println("Generating new bitmap...");
