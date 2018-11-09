@@ -91,4 +91,38 @@ public final class ImageUtil {
         }
         return t;
     }
+    static char concatHalfBytesToASCII(int firstFour, int lastFour){
+        int charcode = 0;
+        if (firstFour >= 8){
+            charcode += 128;
+            firstFour -= 8;
+        }
+        if (firstFour >= 4){
+            charcode += 64;
+            firstFour -= 4;
+        }
+        if (firstFour >= 2){
+            charcode += 32;
+            firstFour -= 2;
+        }
+        if (firstFour >= 1){
+            charcode += 16;
+        }
+        if (lastFour >= 8){
+            charcode += 8;
+            lastFour -=8;
+        }
+        if (lastFour >= 4){
+            charcode += 4;
+            lastFour -=4;
+        }
+        if (lastFour >= 2){
+            charcode += 2;
+            lastFour -=2;
+        }
+        if (lastFour >= 1){
+            charcode +=1;
+        }
+        return (char)charcode;
+    }
 }

@@ -68,6 +68,8 @@ public class DecryptThread extends Thread {
             fileSize += (encryptedRGB[height-1][width-1].getGreen() - baseRGB[height-1][width-5].getGreen()) * Math.pow(10, 1);
             fileSize += (encryptedRGB[height-1][width-1].getBlue() - baseRGB[height-1][width-5].getBlue()) * Math.pow(10, 0);
             System.out.println(" Encrypted data size is " + fileSize + " bytes.");
+            String ext = "";
+
         } catch (IOException e){
             e.printStackTrace();
         }
