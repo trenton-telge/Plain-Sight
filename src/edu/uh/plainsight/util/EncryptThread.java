@@ -86,22 +86,27 @@ public class EncryptThread extends Thread {
             System.out.println(" Writing metadata...");
             //last four pixels hold length of encoded information, 1 digit per rgb value
             // n-3(R), n-3(G), n-3(B), n-2(R) ...
-            short[] digits = new short[12];
-            for (int i = 0; i <= 11; i++){
-                digits[i] = (short) (totalDataLen/Math.pow(10, 11-i));
+            String s = Long.toString(totalDataLen);
+            int[] digits = new int[12];
+            for (int i = 0; i<=11; i++){
+                if (12-i > s.length()){
+                    digits[i] = 0;
+                } else {
+                    digits[i] = Integer.parseInt(Character.toString(s.charAt(i-(12-s.length()))));
+                }
             }
-            RGB[height-1][width-4] = new Color(colorAdd(RGB[h][w].getRed(), digits[0]),
-                    colorAdd(RGB[h][w].getGreen(), digits[1]),
-                    colorAdd(RGB[h][w].getBlue(), digits[2]));
-            RGB[height-1][width-3] = new Color(colorAdd(RGB[h][w].getRed(), digits[3]),
-                    colorAdd(RGB[h][w].getGreen(), digits[4]),
-                    colorAdd(RGB[h][w].getBlue(), digits[5]));
-            RGB[height-1][width-2] = new Color(colorAdd(RGB[h][w].getRed(), digits[6]),
-                    colorAdd(RGB[h][w].getGreen(), digits[7]),
-                    colorAdd(RGB[h][w].getBlue(), digits[8]));
-            RGB[height-1][width-1] = new Color(colorAdd(RGB[h][w].getRed(), digits[9]),
-                    colorAdd(RGB[h][w].getGreen(), digits[10]),
-                    colorAdd(RGB[h][w].getBlue(), digits[11]));
+            RGB[height-1][width-4] = new Color(colorAdd(RGB[h][w].getRed(), digits[0]-2),
+                    colorAdd(RGB[h][w].getGreen(), digits[1]-2),
+                    colorAdd(RGB[h][w].getBlue(), digits[2]-2));
+            RGB[height-1][width-3] = new Color(colorAdd(RGB[h][w].getRed(), digits[3]-2),
+                    colorAdd(RGB[h][w].getGreen(), digits[4]-2),
+                    colorAdd(RGB[h][w].getBlue(), digits[5]-2));
+            RGB[height-1][width-2] = new Color(colorAdd(RGB[h][w].getRed(), digits[6]-2),
+                    colorAdd(RGB[h][w].getGreen(), digits[7]-2),
+                    colorAdd(RGB[h][w].getBlue(), digits[8]-2));
+            RGB[height-1][width-1] = new Color(colorAdd(RGB[h][w].getRed(), digits[9]-2),
+                    colorAdd(RGB[h][w].getGreen(), digits[10]-2),
+                    colorAdd(RGB[h][w].getBlue(), digits[11]-2));
 
             String ext = getFileExtension(dataFile);
             //only encodes in g and b for simplicity

@@ -125,4 +125,5 @@ public final class ImageUtil {
         }
         return (char)charcode;
     }
+
 }
