@@ -92,38 +92,40 @@ public final class ImageUtil {
         return t;
     }
     static char concatHalfBytesToASCII(int firstFour, int lastFour){
-        int charcode = 0;
+        return (char)concatHalfBytesToByte(firstFour, lastFour);
+    }
+    static byte concatHalfBytesToByte(int firstFour, int lastFour){
+        byte byteTotal = 0;
         if (firstFour >= 8){
-            charcode += 128;
+            byteTotal += 128;
             firstFour -= 8;
         }
         if (firstFour >= 4){
-            charcode += 64;
+            byteTotal += 64;
             firstFour -= 4;
         }
         if (firstFour >= 2){
-            charcode += 32;
+            byteTotal += 32;
             firstFour -= 2;
         }
         if (firstFour >= 1){
-            charcode += 16;
+            byteTotal += 16;
         }
         if (lastFour >= 8){
-            charcode += 8;
+            byteTotal += 8;
             lastFour -=8;
         }
         if (lastFour >= 4){
-            charcode += 4;
+            byteTotal += 4;
             lastFour -=4;
         }
         if (lastFour >= 2){
-            charcode += 2;
+            byteTotal += 2;
             lastFour -=2;
         }
         if (lastFour >= 1){
-            charcode +=1;
+            byteTotal +=1;
         }
-        return (char)charcode;
+        return byteTotal;
     }
-
 }

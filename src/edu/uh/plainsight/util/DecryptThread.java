@@ -74,6 +74,32 @@ public class DecryptThread extends Thread {
             ext = ext.concat(ImageUtil.concatHalfBytesToASCII((encryptedRGB[height-1][width-5].getGreen() - baseRGB[height-1][width-5].getGreen()), (encryptedRGB[height-1][width-5].getBlue() - baseRGB[height-1][width-5].getBlue())) == (char)0? "" : Character.toString(ImageUtil.concatHalfBytesToASCII((encryptedRGB[height-1][width-5].getGreen() - baseRGB[height-1][width-5].getGreen()), (encryptedRGB[height-1][width-5].getBlue() - baseRGB[height-1][width-5].getBlue()))));
             System.out.println(" File type is " + ext.toUpperCase() + ".");
             System.out.println("Metadata decrypted.");
+            byte[] outFileByteArray = new byte[(int)fileSize];
+            long remainingSize = fileSize;
+            System.out.println("Decrypting main body");
+            h=0;
+            w=0;
+            while (remainingSize > 0){
+                outFileByteArray[(int) (fileSize - remainingSize)] = ImageUtil.concatHalfBytesToByte(encryptedRGB[h][w].getRed() - baseRGB[h][w].getRed(), encryptedRGB[h][w].getGreen() - baseRGB[h][w].getGreen());
+                remainingSize--;
+                if (remainingSize >= 1) {
+                    int tempHalfByte = encryptedRGB[h][w].getBlue() - baseRGB[h][w].getBlue();
+                    if (w + 1 == width) {
+                        w = 0;
+                        h++;
+                    } else {
+                        w++;
+                    }
+                    outFileByteArray[(int) (fileSize - remainingSize)] = ImageUtil.concatHalfBytesToByte(tempHalfByte, encryptedRGB[h][w].getRed() - baseRGB[h][w].getRed());
+                    remainingSize--;
+                }
+                if (remainingSize >= 1) {
+                    outFileByteArray[(int) (fileSize - remainingSize)] = ImageUtil.concatHalfBytesToByte(encryptedRGB[h][w].getGreen() - baseRGB[h][w].getGreen(), encryptedRGB[h][w].getBlue() - baseRGB[h][w].getBlue());
+                    remainingSize--;
+                }
+            }
+            System.out.println("Main body decrypted.");
+            //TODO byte array to file
         } catch (IOException e){
             e.printStackTrace();
         }
