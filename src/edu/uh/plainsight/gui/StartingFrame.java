@@ -96,10 +96,8 @@ public class StartingFrame extends JFrame {
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
             {
                 PlainSight.inputReference = chooser.getSelectedFile();
-
             }
 
-            PlainSight.inputFile = new File(PlainSight.inputReference.toString().concat("retrieved.png"));
             new DecryptThread(PlainSight.outputFile, PlainSight.dataFile, PlainSight.inputReference).start();
 
 
