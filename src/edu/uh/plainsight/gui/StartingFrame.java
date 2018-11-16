@@ -1,6 +1,7 @@
 package edu.uh.plainsight.gui;
 
 import edu.uh.plainsight.PlainSight;
+import edu.uh.plainsight.util.DecryptThread;
 import edu.uh.plainsight.util.EncryptThread;
 import edu.uh.plainsight.util.ImageUtil;
 
@@ -29,6 +30,12 @@ public class StartingFrame extends JFrame {
         decryptButton.setPreferredSize(buttonDimension);
         mainPanel.add(encryptButton, BorderLayout.WEST);
         mainPanel.add(decryptButton, BorderLayout.EAST);
+
+
+
+
+
+
         encryptButton.addActionListener(e->{
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -61,7 +68,44 @@ public class StartingFrame extends JFrame {
             * */
             //TODO make output frame on thread close
         });
+
+
+
+
+
+// get original , altered , and where to save it
         decryptButton.addActionListener(e->{
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Png Images", "png");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(new JFrame("Choose the original image."));
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                PlainSight.dataFile = chooser.getSelectedFile();
+            }
+            chooser = new JFileChooser();
+            returnVal = chooser.showOpenDialog(new JFrame("Choose altered image"));
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                PlainSight.outputFile = chooser.getSelectedFile();
+            }
+            chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+            {
+                PlainSight.inputReference = chooser.getSelectedFile();
+
+            }
+
+            PlainSight.inputFile = new File(PlainSight.inputReference.toString().concat("retrieved.png"));
+            new DecryptThread(PlainSight.outputFile, PlainSight.dataFile, PlainSight.inputReference).start();
+
+
+
+
+
             //TODO make a frame with buttons to choose starting image, encrypted image, and destination
             //TODO make new thread for decryption
             //TODO make progress bar frame
